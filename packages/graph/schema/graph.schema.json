@@ -1,0 +1,1220 @@
+{
+  "$defs": {
+    "__schema0": {
+      "$ref": "#/$defs/__schema1"
+    },
+    "__schema1": {
+      "additionalProperties": {
+        "$ref": "#/$defs/__schema2"
+      },
+      "propertyNames": {
+        "type": "string"
+      },
+      "type": "object"
+    },
+    "__schema2": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "additionalProperties": {},
+          "properties": {
+            "$anchor": {
+              "pattern": "^[A-Za-z_][-A-Za-z0-9._]*$",
+              "type": "string"
+            },
+            "$comment": {
+              "type": "string"
+            },
+            "$defs": {
+              "$ref": "#/$defs/__schema0"
+            },
+            "$dynamicAnchor": {
+              "not": {}
+            },
+            "$dynamicRef": {
+              "not": {}
+            },
+            "$id": {
+              "not": {}
+            },
+            "$recursiveRef": {
+              "not": {}
+            },
+            "$ref": {
+              "pattern": "^#",
+              "type": "string"
+            },
+            "$schema": {
+              "const": "https://json-schema.org/draft/2020-12/schema",
+              "type": "string"
+            },
+            "additionalProperties": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "allOf": {
+              "items": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "anyOf": {
+              "items": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "contains": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "contentEncoding": {
+              "type": "string"
+            },
+            "contentMediaType": {
+              "type": "string"
+            },
+            "contentSchema": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "definitions": {
+              "$ref": "#/$defs/__schema1"
+            },
+            "dependentRequired": {
+              "additionalProperties": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "propertyNames": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "dependentSchemas": {
+              "$ref": "#/$defs/__schema1"
+            },
+            "deprecated": {
+              "type": "boolean"
+            },
+            "description": {
+              "type": "string"
+            },
+            "else": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "enum": {
+              "items": {},
+              "minItems": 1,
+              "type": "array"
+            },
+            "examples": {
+              "items": {},
+              "type": "array"
+            },
+            "exclusiveMaximum": {
+              "type": "number"
+            },
+            "exclusiveMinimum": {
+              "type": "number"
+            },
+            "format": {
+              "type": "string"
+            },
+            "if": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "items": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "maxContains": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "maxItems": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "maxLength": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "maxProperties": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "maximum": {
+              "type": "number"
+            },
+            "minContains": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "minItems": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "minLength": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "minProperties": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "minimum": {
+              "type": "number"
+            },
+            "multipleOf": {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            "not": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "oneOf": {
+              "items": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "pattern": {
+              "type": "string"
+            },
+            "patternProperties": {
+              "additionalProperties": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "propertyNames": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "prefixItems": {
+              "items": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "properties": {
+              "$ref": "#/$defs/__schema1"
+            },
+            "propertyNames": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "readOnly": {
+              "type": "boolean"
+            },
+            "required": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "then": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "title": {
+              "type": "string"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "array",
+                    "boolean",
+                    "integer",
+                    "null",
+                    "number",
+                    "object",
+                    "string"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "enum": [
+                      "array",
+                      "boolean",
+                      "integer",
+                      "null",
+                      "number",
+                      "object",
+                      "string"
+                    ],
+                    "type": "string"
+                  },
+                  "minItems": 1,
+                  "type": "array"
+                }
+              ]
+            },
+            "unevaluatedItems": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "unevaluatedProperties": {
+              "$ref": "#/$defs/__schema2"
+            },
+            "uniqueItems": {
+              "type": "boolean"
+            },
+            "writeOnly": {
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "capabilities": {
+      "items": {
+        "additionalProperties": false,
+        "if": {
+          "properties": {
+            "sideEffect": {
+              "const": "destructive"
+            }
+          },
+          "required": [
+            "sideEffect"
+          ],
+          "type": "object"
+        },
+        "properties": {
+          "approval": {
+            "description": "Only approved capabilities are ever emitted.",
+            "enum": [
+              "pending",
+              "approved",
+              "rejected"
+            ],
+            "type": "string"
+          },
+          "auth": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "none",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "oauth",
+                    "type": "string"
+                  },
+                  "scopes": {
+                    "items": {
+                      "pattern": "^[\\x21\\x23-\\x5B\\x5D-\\x7E]+$",
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "scopes"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "confidence": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "description": {
+            "description": "Facts about what the capability does. Never instructions to agents.",
+            "maxLength": 2000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          },
+          "executor": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "credential": {
+                    "oneOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "kind": {
+                            "const": "none",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "audience": {
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          "kind": {
+                            "const": "token-exchange",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "audience"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "kind": {
+                            "const": "tenant-secret",
+                            "type": "string"
+                          },
+                          "placement": {
+                            "oneOf": [
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "in": {
+                                    "const": "authorization",
+                                    "type": "string"
+                                  },
+                                  "scheme": {
+                                    "enum": [
+                                      "bearer",
+                                      "basic"
+                                    ],
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "in",
+                                  "scheme"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "in": {
+                                    "const": "header",
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "pattern": "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "in",
+                                  "name"
+                                ],
+                                "type": "object"
+                              },
+                              {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "in": {
+                                    "const": "query",
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "pattern": "^[A-Za-z0-9._~-]+$",
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "in",
+                                  "name"
+                                ],
+                                "type": "object"
+                              }
+                            ]
+                          },
+                          "secretRef": {
+                            "maxLength": 64,
+                            "pattern": "^TENANT_[A-Z0-9_]+$",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "secretRef"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "kind": {
+                    "const": "http",
+                    "type": "string"
+                  },
+                  "method": {
+                    "enum": [
+                      "GET",
+                      "HEAD",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ],
+                    "type": "string"
+                  },
+                  "path": {
+                    "not": {
+                      "pattern": "(?:^|/)\\.\\.?(?:/|$)|%(?:2[eEfF]|5[cC])"
+                    },
+                    "pattern": "^(?:\\/|(?:\\/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2}|\\{[A-Za-z_][A-Za-z0-9_]*\\})+)+\\/?)$",
+                    "type": "string"
+                  },
+                  "query": {
+                    "items": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "minItems": 1,
+                    "type": "array"
+                  },
+                  "timeoutMs": {
+                    "maximum": 30000,
+                    "minimum": 100,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "method",
+                  "path",
+                  "credential"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "browser",
+                    "type": "string"
+                  },
+                  "workflow": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "workflowVersion": {
+                    "maximum": 9007199254740991,
+                    "minimum": 1,
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "workflow",
+                  "workflowVersion"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "id": {
+            "description": "Stable id, also the MCP tool name: snake_case, at most 64 characters.",
+            "not": {
+              "enum": [
+                "search",
+                "execute"
+              ]
+            },
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "inputSchema": {
+            "additionalProperties": {},
+            "description": "JSON Schema 2020-12 describing a JSON object.",
+            "properties": {
+              "$anchor": {
+                "pattern": "^[A-Za-z_][-A-Za-z0-9._]*$",
+                "type": "string"
+              },
+              "$comment": {
+                "type": "string"
+              },
+              "$defs": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "$dynamicAnchor": {
+                "not": {}
+              },
+              "$dynamicRef": {
+                "not": {}
+              },
+              "$id": {
+                "not": {}
+              },
+              "$recursiveRef": {
+                "not": {}
+              },
+              "$ref": {
+                "pattern": "^#",
+                "type": "string"
+              },
+              "$schema": {
+                "const": "https://json-schema.org/draft/2020-12/schema",
+                "type": "string"
+              },
+              "additionalProperties": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "allOf": {
+                "items": {
+                  "$ref": "#/$defs/__schema2"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "anyOf": {
+                "items": {
+                  "$ref": "#/$defs/__schema2"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "contains": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "contentEncoding": {
+                "type": "string"
+              },
+              "contentMediaType": {
+                "type": "string"
+              },
+              "contentSchema": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "definitions": {
+                "$ref": "#/$defs/__schema1"
+              },
+              "dependentRequired": {
+                "additionalProperties": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "propertyNames": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              "dependentSchemas": {
+                "$ref": "#/$defs/__schema1"
+              },
+              "deprecated": {
+                "type": "boolean"
+              },
+              "description": {
+                "type": "string"
+              },
+              "else": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "enum": {
+                "items": {},
+                "minItems": 1,
+                "type": "array"
+              },
+              "examples": {
+                "items": {},
+                "type": "array"
+              },
+              "exclusiveMaximum": {
+                "type": "number"
+              },
+              "exclusiveMinimum": {
+                "type": "number"
+              },
+              "format": {
+                "type": "string"
+              },
+              "if": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "items": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "maxContains": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "maxItems": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "maxLength": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "maxProperties": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "maximum": {
+                "type": "number"
+              },
+              "minContains": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "minItems": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "minLength": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "minProperties": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "minimum": {
+                "type": "number"
+              },
+              "multipleOf": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "not": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "oneOf": {
+                "items": {
+                  "$ref": "#/$defs/__schema2"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "pattern": {
+                "type": "string"
+              },
+              "patternProperties": {
+                "additionalProperties": {
+                  "$ref": "#/$defs/__schema2"
+                },
+                "propertyNames": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              "prefixItems": {
+                "items": {
+                  "$ref": "#/$defs/__schema2"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "properties": {
+                "$ref": "#/$defs/__schema1"
+              },
+              "propertyNames": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "readOnly": {
+                "type": "boolean"
+              },
+              "required": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "then": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "title": {
+                "type": "string"
+              },
+              "type": {
+                "const": "object",
+                "type": "string"
+              },
+              "unevaluatedItems": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "unevaluatedProperties": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "uniqueItems": {
+                "type": "boolean"
+              },
+              "writeOnly": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          "outputSchema": {
+            "additionalProperties": {},
+            "description": "JSON Schema 2020-12 describing a JSON object.",
+            "properties": {
+              "$anchor": {
+                "pattern": "^[A-Za-z_][-A-Za-z0-9._]*$",
+                "type": "string"
+              },
+              "$comment": {
+                "type": "string"
+              },
+              "$defs": {
+                "$ref": "#/$defs/__schema0"
+              },
+              "$dynamicAnchor": {
+                "not": {}
+              },
+              "$dynamicRef": {
+                "not": {}
+              },
+              "$id": {
+                "not": {}
+              },
+              "$recursiveRef": {
+                "not": {}
+              },
+              "$ref": {
+                "pattern": "^#",
+                "type": "string"
+              },
+              "$schema": {
+                "const": "https://json-schema.org/draft/2020-12/schema",
+                "type": "string"
+              },
+              "additionalProperties": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "allOf": {
+                "items": {
+                  "$ref": "#/$defs/__schema2"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "anyOf": {
+                "items": {
+                  "$ref": "#/$defs/__schema2"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "contains": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "contentEncoding": {
+                "type": "string"
+              },
+              "contentMediaType": {
+                "type": "string"
+              },
+              "contentSchema": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "definitions": {
+                "$ref": "#/$defs/__schema1"
+              },
+              "dependentRequired": {
+                "additionalProperties": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "propertyNames": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              "dependentSchemas": {
+                "$ref": "#/$defs/__schema1"
+              },
+              "deprecated": {
+                "type": "boolean"
+              },
+              "description": {
+                "type": "string"
+              },
+              "else": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "enum": {
+                "items": {},
+                "minItems": 1,
+                "type": "array"
+              },
+              "examples": {
+                "items": {},
+                "type": "array"
+              },
+              "exclusiveMaximum": {
+                "type": "number"
+              },
+              "exclusiveMinimum": {
+                "type": "number"
+              },
+              "format": {
+                "type": "string"
+              },
+              "if": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "items": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "maxContains": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "maxItems": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "maxLength": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "maxProperties": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "maximum": {
+                "type": "number"
+              },
+              "minContains": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "minItems": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "minLength": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "minProperties": {
+                "maximum": 9007199254740991,
+                "minimum": 0,
+                "type": "integer"
+              },
+              "minimum": {
+                "type": "number"
+              },
+              "multipleOf": {
+                "exclusiveMinimum": 0,
+                "type": "number"
+              },
+              "not": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "oneOf": {
+                "items": {
+                  "$ref": "#/$defs/__schema2"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "pattern": {
+                "type": "string"
+              },
+              "patternProperties": {
+                "additionalProperties": {
+                  "$ref": "#/$defs/__schema2"
+                },
+                "propertyNames": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              "prefixItems": {
+                "items": {
+                  "$ref": "#/$defs/__schema2"
+                },
+                "minItems": 1,
+                "type": "array"
+              },
+              "properties": {
+                "$ref": "#/$defs/__schema1"
+              },
+              "propertyNames": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "readOnly": {
+                "type": "boolean"
+              },
+              "required": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "then": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "title": {
+                "type": "string"
+              },
+              "type": {
+                "const": "object",
+                "type": "string"
+              },
+              "unevaluatedItems": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "unevaluatedProperties": {
+                "$ref": "#/$defs/__schema2"
+              },
+              "uniqueItems": {
+                "type": "boolean"
+              },
+              "writeOnly": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          "price": {
+            "additionalProperties": false,
+            "properties": {
+              "amount": {
+                "not": {
+                  "pattern": "^0(?:\\.0*)?$"
+                },
+                "pattern": "^(?:0|[1-9]\\d*)(?:\\.\\d{1,6})?$",
+                "type": "string"
+              },
+              "currency": {
+                "pattern": "^[A-Z]{3}$",
+                "type": "string"
+              }
+            },
+            "required": [
+              "amount",
+              "currency"
+            ],
+            "type": "object"
+          },
+          "provenance": {
+            "oneOf": [
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "document": {
+                    "pattern": "^sha256:[0-9a-f]{64}$",
+                    "type": "string"
+                  },
+                  "method": {
+                    "enum": [
+                      "GET",
+                      "HEAD",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ],
+                    "type": "string"
+                  },
+                  "operationId": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "path": {
+                    "not": {
+                      "pattern": "(?:^|/)\\.\\.?(?:/|$)|%(?:2[eEfF]|5[cC])"
+                    },
+                    "pattern": "^(?:\\/|(?:\\/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2}|\\{[A-Za-z_][A-Za-z0-9_]*\\})+)+\\/?)$",
+                    "type": "string"
+                  },
+                  "source": {
+                    "const": "openapi",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "source",
+                  "document",
+                  "method",
+                  "path"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "capture": {
+                    "pattern": "^sha256:[0-9a-f]{64}$",
+                    "type": "string"
+                  },
+                  "method": {
+                    "enum": [
+                      "GET",
+                      "HEAD",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ],
+                    "type": "string"
+                  },
+                  "path": {
+                    "not": {
+                      "pattern": "(?:^|/)\\.\\.?(?:/|$)|%(?:2[eEfF]|5[cC])"
+                    },
+                    "pattern": "^(?:\\/|(?:\\/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2}|\\{[A-Za-z_][A-Za-z0-9_]*\\})+)+\\/?)$",
+                    "type": "string"
+                  },
+                  "samples": {
+                    "maximum": 9007199254740991,
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "source": {
+                    "const": "har",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "source",
+                  "capture",
+                  "method",
+                  "path",
+                  "samples"
+                ],
+                "type": "object"
+              },
+              {
+                "additionalProperties": false,
+                "properties": {
+                  "source": {
+                    "const": "manual",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "source"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "sideEffect": {
+            "description": "read | write | destructive. Anything but read becomes its own MCP tool.",
+            "enum": [
+              "read",
+              "write",
+              "destructive"
+            ],
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 120,
+            "minLength": 1,
+            "pattern": "\\S",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "sideEffect",
+          "inputSchema",
+          "auth",
+          "executor",
+          "provenance",
+          "confidence",
+          "approval"
+        ],
+        "then": {
+          "properties": {
+            "auth": {
+              "properties": {
+                "kind": {
+                  "const": "oauth"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "formatVersion": {
+      "const": 1,
+      "type": "number"
+    },
+    "tenant": {
+      "description": "Tenant slug. Part of every storage key.",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "formatVersion",
+    "tenant",
+    "capabilities"
+  ],
+  "title": "Kapabl capability graph",
+  "type": "object"
+}

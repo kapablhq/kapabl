@@ -1,0 +1,164 @@
+openapi: 3.0.3
+info:
+  title: Acme Billing
+  version: "1.4"
+servers:
+  - url: https://api.acme.test/{version}
+    variables:
+      version:
+        default: v2
+security:
+  - oauth: [billing.read]
+paths:
+  /invoices:
+    get:
+      operationId: listInvoices
+      summary: List invoices
+      tags: [billing]
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - name: status
+          in: query
+          schema: { type: string, enum: [open, paid, void] }
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: "#/components/schemas/Invoice" } }
+    post:
+      operationId: createInvoice
+      summary: Create an invoice
+      security:
+        - oauth: [billing.write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Invoice" }
+      responses:
+        "201":
+          description: created
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Invoice" }
+  /invoices/{invoiceId}:
+    parameters:
+      - name: invoiceId
+        in: path
+        required: true
+        description: The invoice.
+        schema: { type: string }
+    get:
+      operationId: getInvoice
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Invoice" }
+    delete:
+      operationId: deleteInvoice
+      deprecated: true
+      responses:
+        "204": { description: gone }
+  /invoices/{invoiceId}/refunds:
+    post:
+      operationId: refundInvoice
+      summary: Refund an invoice
+      parameters:
+        - name: invoiceId
+          in: path
+          required: true
+          schema: { type: string }
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount]
+              properties:
+                amount: { type: integer, minimum: 0, exclusiveMinimum: true, example: 500 }
+      responses:
+        "200": { description: ok }
+  /reports/export:
+    post:
+      operationId: exportReport
+      security:
+        - partnerKey: []
+      requestBody:
+        required: true
+        content:
+          text/csv:
+            schema: { type: string }
+      responses:
+        "200": { description: ok }
+  /status:
+    get:
+      operationId: getStatus
+      security: [{}]
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                x-internal: true
+  /partners/{partnerId}/usage:
+    get:
+      operationId: partnerUsage
+      security:
+        - partnerKey: []
+      parameters:
+        - { name: partnerId, in: path, required: true, schema: { type: integer } }
+      responses:
+        "200":
+          description: ok
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Node" }
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      schema: { type: integer, maximum: 100 }
+  securitySchemes:
+    oauth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.acme.test/authorize
+          tokenUrl: https://auth.acme.test/token
+          scopes: { billing.read: read, billing.write: write }
+    partnerKey:
+      type: apiKey
+      in: header
+      name: X-Partner-Key
+  schemas:
+    Invoice:
+      type: object
+      required: [id, customer, total]
+      properties:
+        id: { type: string, readOnly: true }
+        customer: { type: string }
+        total: { type: number }
+        memo: { type: string, nullable: true }
+        discriminatorField: { type: string }
+      discriminator: { propertyName: discriminatorField }
+      x-tables: invoices
+    Node:
+      type: object
+      properties:
+        name: { type: string }
+        children: { type: array, items: { $ref: "#/components/schemas/Node" } }

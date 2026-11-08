@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.turbo/
+*.har
+!**/test/fixtures/*.har
+*.tsbuildinfo
+coverage/
+.env
+.env.*

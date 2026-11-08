@@ -1,0 +1,17 @@
+{
+  "name": "@kapabl/sdk-hono",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Hono middleware: Markdown negotiation, Link headers and discovery files",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  }
+}

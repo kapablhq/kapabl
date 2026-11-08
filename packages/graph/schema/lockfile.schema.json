@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "capabilities": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "decision": {
+            "enum": [
+              "approved",
+              "rejected"
+            ],
+            "type": "string"
+          },
+          "digest": {
+            "description": "Digest of the capability as reviewed, without its approval field.",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "id": {
+            "description": "Stable id, also the MCP tool name: snake_case, at most 64 characters.",
+            "not": {
+              "enum": [
+                "search",
+                "execute"
+              ]
+            },
+            "pattern": "^[a-z][a-z0-9_]{0,63}$",
+            "type": "string"
+          },
+          "reviewedAt": {
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$",
+            "type": "string"
+          },
+          "reviewedBy": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "digest",
+          "decision",
+          "reviewedBy",
+          "reviewedAt"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "lockfileVersion": {
+      "const": 1,
+      "type": "number"
+    },
+    "tenant": {
+      "description": "Tenant slug. Part of every storage key.",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "lockfileVersion",
+    "tenant",
+    "capabilities"
+  ],
+  "title": "Kapabl capabilities lockfile",
+  "type": "object"
+}

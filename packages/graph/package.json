@@ -1,0 +1,48 @@
+{
+  "name": "@kapabl/graph",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Capability graph schema and lockfile format",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./payments": "./src/payments.ts",
+    "./schema/graph.schema.json": "./schema/graph.schema.json",
+    "./schema/lockfile.schema.json": "./schema/lockfile.schema.json"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "schemas": "node scripts/write-schemas.ts"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "typescript": "7.0.2",
+    "vitest": "5.0.5"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  },
+  "files": [
+    "dist",
+    "schema"
+  ],
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./payments": {
+        "types": "./dist/payments.d.ts",
+        "default": "./dist/payments.js"
+      },
+      "./schema/graph.schema.json": "./schema/graph.schema.json",
+      "./schema/lockfile.schema.json": "./schema/lockfile.schema.json"
+    }
+  }
+}

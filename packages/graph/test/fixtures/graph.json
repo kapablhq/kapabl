@@ -1,0 +1,157 @@
+{
+  "capabilities": [
+    {
+      "approval": "pending",
+      "auth": {
+        "kind": "oauth",
+        "scopes": [
+          "subscription:write"
+        ]
+      },
+      "confidence": 0.82,
+      "description": "Cancels the signed-in user's subscription at the end of the current billing period.",
+      "executor": {
+        "credential": {
+          "audience": "https://api.acme.test",
+          "kind": "token-exchange"
+        },
+        "kind": "http",
+        "method": "DELETE",
+        "path": "/v1/subscriptions/{subscription_id}"
+      },
+      "id": "cancel_subscription",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "subscription_id": {
+            "pattern": "^sub_[A-Za-z0-9]+$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subscription_id"
+        ],
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "ends_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "canceled",
+              "pending_cancellation"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
+      "provenance": {
+        "capture": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "method": "DELETE",
+        "path": "/v1/subscriptions/{subscription_id}",
+        "samples": 3,
+        "source": "har"
+      },
+      "sideEffect": "destructive",
+      "title": "Cancel subscription"
+    },
+    {
+      "approval": "approved",
+      "auth": {
+        "kind": "oauth",
+        "scopes": [
+          "usage:read"
+        ]
+      },
+      "confidence": 0.95,
+      "description": "Monthly API usage totals for the signed-in user's workspace.",
+      "executor": {
+        "credential": {
+          "kind": "tenant-secret",
+          "secretRef": "TENANT_ACME_REPORTS_KEY"
+        },
+        "kind": "http",
+        "method": "GET",
+        "path": "/v1/usage/{month}"
+      },
+      "id": "get_usage_report",
+      "inputSchema": {
+        "properties": {
+          "month": {
+            "pattern": "^\\d{4}-\\d{2}$",
+            "type": "string"
+          }
+        },
+        "required": [
+          "month"
+        ],
+        "type": "object"
+      },
+      "outputSchema": {
+        "properties": {
+          "requests": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "price": {
+        "amount": "0.01",
+        "currency": "USD"
+      },
+      "provenance": {
+        "document": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "method": "GET",
+        "operationId": "getUsage",
+        "path": "/v1/usage/{month}",
+        "source": "openapi"
+      },
+      "sideEffect": "read",
+      "title": "Get usage report"
+    },
+    {
+      "approval": "approved",
+      "auth": {
+        "kind": "none"
+      },
+      "confidence": 1,
+      "description": "Full-text search over the public product documentation.",
+      "executor": {
+        "credential": {
+          "kind": "none"
+        },
+        "kind": "http",
+        "method": "GET",
+        "path": "/docs/search",
+        "timeoutMs": 5000
+      },
+      "id": "search_docs",
+      "inputSchema": {
+        "properties": {
+          "query": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      },
+      "provenance": {
+        "source": "manual"
+      },
+      "sideEffect": "read",
+      "title": "Search documentation"
+    }
+  ],
+  "formatVersion": 1,
+  "tenant": "acme"
+}

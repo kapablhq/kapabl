@@ -8,6 +8,14 @@ import { join } from "node:path";
 import { scrubHar } from "@kapabl/compiler";
 import { emittableCapabilities, parseGraph, parseLockfile } from "@kapabl/graph";
 import { describe, expect, it } from "vitest";
+import {
+  PUBLIC_APIS,
+  publicApiSpread,
+  RADAR,
+  radarShare,
+  SITE_CHECKS,
+  type SiteCategory,
+} from "../src/benchmarks.ts";
 import { type Io, run } from "../src/index.ts";
 
 const fixtures = new URL("../../compiler/test/fixtures/", import.meta.url).pathname;
@@ -410,6 +418,112 @@ describe("kapabl CLI", () => {
     expect(html).toContain("<td>Anyone</td>");
     expect(await s.cli("audit", "--openapi", spec, "--out", "x.yaml")).toBe(2);
     expect(await s.cli("audit", "--openapi", spec, "--cloudflare-level", "9")).toBe(2);
+  });
+
+  it("audit draws what it counts, and compares only when there is enough to compare", async () => {
+    const s = await session();
+    expect(await s.cli("audit", "--har", harFile)).toBe(0);
+    const small = await readFile(join(s.cwd, "audit.html"), "utf8");
+    expect(small).toMatch(/An AI assistant could do <strong>\d+<\/strong> things in this product/);
+    expect(small).toContain('<figure class="split">');
+    // Fewer than ten actions: a share of so few says nothing next to the public APIs.
+    expect(small).not.toContain("Compared with");
+
+    const paths = Object.fromEntries(
+      Array.from({ length: 6 }, (_, i) => [
+        `/things${i}`,
+        {
+          get: { operationId: `getThing${i}`, responses: { "200": { description: "ok" } } },
+          delete: { operationId: `deleteThing${i}`, responses: { "204": { description: "ok" } } },
+        },
+      ]),
+    );
+    const spec = join(s.cwd, "big.json");
+    await writeFile(
+      spec,
+      JSON.stringify({
+        openapi: "3.1.0",
+        info: { title: "Big", version: "1" },
+        servers: [{ url: "https://big.example" }],
+        paths,
+      }),
+    );
+    expect(await s.cli("audit", "--openapi", spec, "--out", "big.html")).toBe(0);
+    const big = await readFile(join(s.cwd, "big.html"), "utf8");
+    expect(big).toContain(`Compared with ${PUBLIC_APIS.apis.length} public APIs`);
+    expect(big).toContain("<strong>Risky</strong>: yours 50%, typical 18% (from 8% to 25%)");
+    expect(big).not.toMatch(/<script|https?:\/\/[^"<]*\.(?:js|css|png|woff)/);
+  });
+
+  it("the comparison figures are measured counts that add up", () => {
+    for (const [name, actions, reads, writes, destructive] of PUBLIC_APIS.apis) {
+      expect(reads + writes + destructive, name).toBe(actions);
+      expect(actions, name).toBeGreaterThanOrEqual(10);
+    }
+    expect(publicApiSpread((api) => api[1])).toEqual({ low: 13, median: 208.5, high: 791 });
+    for (const [key, [name, counts]] of Object.entries(RADAR.categories)) {
+      expect(counts, name).toHaveLength(SITE_CHECKS.length + 1);
+      for (const check of SITE_CHECKS) {
+        const { sites, pass } = radarShare(key as SiteCategory, check);
+        expect(pass, `${name} ${check}`).toBeLessThanOrEqual(sites);
+      }
+    }
+    expect(radarShare("personal", "robotsTxt")).toEqual({ sites: 2497, pass: 1991 });
+  });
+
+  it("audit --site shows Cloudflare's level in plain words, and sends only the address", async () => {
+    const s = await session();
+    const sent: { url: string; body: string }[] = [];
+    const scanner: typeof fetch = async (input, init) => {
+      sent.push({ url: String(input), body: String(init?.body) });
+      return Response.json({
+        level: 1,
+        levelName: "Basic <b>Web</b> Presence",
+        checks: {
+          discoverability: { robotsTxt: { status: "pass" }, sitemap: { status: "fail" } },
+          contentAccessibility: { markdownNegotiation: { status: "neutral" } },
+          discovery: { mcpServerCard: { status: "fail" }, somethingNew: { status: "odd" } },
+        },
+      });
+    };
+    const io: Io = {
+      cwd: s.cwd,
+      out: (l) => s.out.push(l),
+      err: (l) => s.err.push(l),
+      env: {},
+      now: () => new Date("2026-11-10T12:00:00Z"),
+      fetch: scanner,
+    };
+    const site = "https://portfolio.example/about?utm=1#me";
+    expect(await run(["audit", "--site", site, "--category", "personal"], io)).toBe(0);
+    expect(sent).toEqual([
+      {
+        url: "https://isitagentready.com/api/scan",
+        body: '{"url":"https://portfolio.example"}',
+      },
+    ]);
+    expect(s.out.join("\n")).toContain("Level 1 of 5: 1 of 11 checks pass.");
+    const html = await readFile(join(s.cwd, "audit.html"), "utf8");
+    expect(html).toContain("Your site passes <strong>1 of 11</strong> checks");
+    expect(html).toContain("<strong>Level 1 of 5</strong> (Basic &lt;b&gt;Web&lt;/b&gt; Presence)");
+    expect(html).toContain('<li class="at" aria-current="true">1</li>');
+    expect(html).toContain('<div class="n">1 of 3</div><div class="label">find your pages</div>');
+    // 1,991 of the 2,497 personal sites Cloudflare scanned have a robots.txt.
+    expect(html).toContain("80% of similar sites have this");
+    expect(html).toContain("2,497 of the most visited sites in Cloudflare&#39;s");
+    expect(html).toContain("Not checked");
+    expect(html).not.toContain("<script");
+
+    expect(await run(["audit", "--site", site, "--category", "nope"], io)).toBe(2);
+    expect(await run(["audit", "--site", "ftp://x.example"], io)).toBe(2);
+    expect(await run(["audit", "--site", "not a url"], io)).toBe(2);
+    expect(await run(["audit", "--site", site, "--openapi", "x.yaml"], io)).toBe(2);
+    expect(sent).toHaveLength(1);
+    io.fetch = async () => new Response("busy", { status: 503 });
+    expect(await run(["audit", "--site", site, "--out", "b.html"], io)).toBe(1);
+    io.fetch = async () => Response.json({ level: "high" });
+    expect(await run(["audit", "--site", site, "--out", "b.html"], io)).toBe(1);
+    expect((await readdir(s.cwd)).sort()).toEqual(["audit.html"]);
   });
 
   it("refuses an option the command does not take", async () => {

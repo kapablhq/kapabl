@@ -6,7 +6,8 @@
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./audit": "./src/audit.ts"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
@@ -31,6 +32,10 @@
       ".": {
         "types": "./dist/src/index.d.ts",
         "default": "./dist/src/index.js"
+      },
+      "./audit": {
+        "types": "./dist/src/audit.d.ts",
+        "default": "./dist/src/audit.js"
       }
     },
     "bin": {

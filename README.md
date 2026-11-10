@@ -24,9 +24,16 @@
 [![Share on Hacker News](https://img.shields.io/badge/share-FF6600?logo=ycombinator&logoColor=white)](https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fgithub.com%2Fkapablhq%2Fkapabl&t=Kapabl%3A%20make%20AI%20agents%20capable%20of%20using%20what%20you%27ve%20built)
 [![Share on Telegram](https://img.shields.io/badge/share-26A5E4?logo=telegram&logoColor=white)](https://t.me/share/url?url=https%3A%2F%2Fgithub.com%2Fkapablhq%2Fkapabl&text=Kapabl%3A%20make%20AI%20agents%20capable%20of%20using%20what%20you%27ve%20built)
 
-**Make AI agents capable of using what you've built. These packages turn the actions in your site or app into reviewed, typed tools for AI agents, including the logged-in and destructive actions a public API doesn't cover. Everything here runs on your machine and uploads nothing.**
+**Make AI agents capable of using what you've built. These packages turn the actions in your site or app into reviewed, typed tools for AI agents, including the logged-in and destructive actions a public API doesn't cover.**
+
+## 👋 Not a developer?
+
+You don't need anything on this page. Email your website address to [hello@kapabl.dev](mailto:hello@kapabl.dev?subject=Free%20audit) and we send you a free one-page report on how AI assistants like ChatGPT and Claude see your site.
+
+[See a sample report](https://kapabl.dev/audit/sample-website) · [How the free audit works](https://kapabl.dev/audit)
 
 ## Table of Contents
+- [Not a developer?](#-not-a-developer)
 - [About](#-about)
 - [Quickstart](#-quickstart)
 - [How It Works](#%EF%B8%8F-how-it-works)
@@ -40,7 +47,9 @@
 
 ## 🚀 About
 
-These packages compile an OpenAPI document or a browser capture (HAR) into a **capability graph**: one reviewed, typed description of what an agent may do in your site or app. Every agent-facing file is then generated from that one graph, so nothing drifts: MCP tool definitions, discovery files, `llms.txt`, Markdown and OpenAPI 3.1.
+Kapabl looks at your site or app and writes down, in one list you review, what an AI assistant may do there. Everything assistants need is then generated from that one list, so nothing drifts.
+
+In developer terms: these packages compile an OpenAPI document or a browser capture (HAR) into a **capability graph**, and generate MCP tool definitions, discovery files, `llms.txt`, Markdown and OpenAPI 3.1 from it. Everything runs on your machine. The one thing that ever leaves it is a website's address, when you ask for a website audit.
 
 - **Scrubbed before it is read.** A HAR capture loses its cookies, tokens, API keys and personal data on your machine, before anything stores it or a model sees it.
 - **Careful by default.** GET is assumed to read. Anything else is assumed to write, and anything that deletes, cancels, refunds, pays or transfers is assumed destructive, until you say otherwise.
@@ -60,11 +69,15 @@ pnpm install
 alias kapabl="node $PWD/packages/cli/bin/kapabl.ts"
 ```
 
-Start with the **action audit**: one HTML page listing every action found, grouped into reads, writes and destructive actions, who can call each one, which credential reaches your API, and what was left out and why.
+Start with an **audit**: one HTML page, in plain words with charts ([samples](https://kapabl.dev/audit)).
 
 ```shell
-kapabl audit --openapi openapi.yaml    # or --har capture.har; writes audit.html
+kapabl audit --site https://example.com --category personal   # any website
+kapabl audit --openapi openapi.yaml                           # a web app; or --har capture.har
 ```
+
+- The **website audit** shows how AI assistants see a site: its level on Cloudflare's free scanner and eleven checks, each beside how many sites of its kind pass it (Cloudflare Radar's figures). It sends the site's address to that scanner and nothing else.
+- The **action audit** lists every action found in an API, grouped into reads, writes and destructive actions, who can call each one, which credential reaches your API, what was left out and why, and how the mix compares with 16 public APIs. It uploads nothing.
 
 Then the full workflow, in your own project:
 
@@ -105,7 +118,7 @@ flowchart LR
 | [`@kapabl/graph`](packages/graph) | Capability graph schema (Zod 4, exported as JSON Schema 2020-12) and the lockfile format |
 | [`@kapabl/compiler`](packages/compiler) | OpenAPI 3.0/3.1 import, HAR scrubbing and inference, contract tests |
 | [`@kapabl/emitters`](packages/emitters) | Graph to MCP tools, server card, `ai-catalog.json`, `api-catalog` (RFC 9727), Agent Skills index, `llms.txt`, Markdown and OpenAPI 3.1 |
-| [`@kapabl/cli`](packages/cli) | The `kapabl` command: `audit`, `compile`, `review`, `example`, `test`, `emit` |
+| [`@kapabl/cli`](packages/cli) | The `kapabl` command: `audit` (a website or an API), `compile`, `review`, `example`, `test`, `emit` |
 | [`@kapabl/sdk-hono`](packages/sdk-hono) | Middleware for Hono apps (in progress) |
 
 ## 🗺️ Roadmap
@@ -113,6 +126,7 @@ flowchart LR
 - [x] Capability graph and lockfile
 - [x] OpenAPI import, HAR scrubbing and inference
 - [x] Owner review, contract tests and the action audit
+- [x] Website audit, with charts and comparisons in both reports
 - [x] Emitters for MCP tools, discovery files, Markdown and OpenAPI 3.1
 - [ ] Publish the packages to npm, so `npx @kapabl/cli` works
 - [ ] Middleware for Hono, then Next.js and Express

@@ -7,6 +7,7 @@
 //                 [--price id=0.01USD|id=none] [--side-effect id=read|write|destructive]
 //   kapabl example id '{"arg": 1}'
 //   kapabl audit --har capture.har | --openapi openapi.yaml [--out audit.html]
+//   kapabl audit --site https://example.com [--category personal] [--out audit.html]
 //   kapabl test [--api-origin URL] [--include-writes]
 //   kapabl emit --openapi out.json [--title T] [--version V]
 //
@@ -46,7 +47,8 @@ import {
   serializeGraph,
   serializeLockfile,
 } from "@kapabl/graph";
-import { auditHtml } from "./audit.ts";
+import { auditHtml, siteAuditHtml } from "./audit.ts";
+import { RADAR, SITE_CHECKS, type SiteCategory } from "./benchmarks.ts";
 import { credentialText, printable } from "./text.ts";
 
 export interface Io {
@@ -76,6 +78,10 @@ Commands:
   audit   --har FILE | --openapi FILE  Write a one-page action audit (HTML); writes
           [--out FILE] [--api-origin URL] nothing else and uploads nothing
           [--cloudflare-level N]       The site's isitagentready.com level, if known
+  audit   --site URL [--out FILE]      Write a one-page website audit (HTML) for a site
+          [--category NAME]            with no API. Sends the address, and nothing else,
+                                       to Cloudflare's scanner. NAME is the kind of site
+                                       to compare with: ${Object.keys(RADAR.categories).join(", ")}
   test    [--api-origin URL] [--include-writes]
                                        Run contract tests against the API
   emit    --openapi FILE [--title T] [--version V]
@@ -710,8 +716,12 @@ async function example(io: Io, values: Values, positionals: string[]): Promise<n
 async function audit(io: Io, values: Values): Promise<number> {
   const harPath = values.har as string | undefined;
   const openapiPath = values.openapi as string | undefined;
+  if (values.site !== undefined) {
+    if (harPath || openapiPath) throw new UsageError("--site goes without --har or --openapi");
+    return siteAudit(io, values);
+  }
   if (Boolean(harPath) === Boolean(openapiPath))
-    throw new UsageError("audit needs exactly one of --har or --openapi");
+    throw new UsageError("audit needs exactly one of --har, --openapi or --site");
   const source = resolve(io.cwd, (harPath ?? openapiPath) as string);
   const out = resolve(io.cwd, (values.out as string | undefined) ?? "audit.html");
   if (await sameFileAsAny(out, [source])) throw new UsageError("--out would overwrite the source");
@@ -752,6 +762,65 @@ async function audit(io: Io, values: Values): Promise<number> {
     `${result.capabilities.length} actions (${count("read")} reads, ${count("write")} writes, ` +
       `${count("destructive")} destructive), ${result.skipped.length} left out.`,
   );
+  io.out(`Wrote ${out}.`);
+  return 0;
+}
+
+/** Cloudflare's public scanner, the one behind isitagentready.com. */
+const SCANNER = "https://isitagentready.com/api/scan";
+
+/**
+ * `kapabl audit --site`: the website audit, for a site with no API. The level and checks are
+ * Cloudflare's; the only thing that leaves this machine is the site's address.
+ */
+async function siteAudit(io: Io, values: Values): Promise<number> {
+  let url: URL;
+  try {
+    url = new URL(values.site as string);
+  } catch {
+    throw new UsageError("--site is the site's address, like https://example.com");
+  }
+  if (url.protocol !== "https:" && url.protocol !== "http:")
+    throw new UsageError("--site is the site's address, like https://example.com");
+  const category = (values.category as string | undefined) ?? "all";
+  if (!Object.hasOwn(RADAR.categories, category))
+    throw new UsageError(`--category is one of: ${Object.keys(RADAR.categories).join(", ")}`);
+  const out = resolve(io.cwd, (values.out as string | undefined) ?? "audit.html");
+
+  const response = await (io.fetch ?? fetch)(SCANNER, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ url: url.origin }),
+    signal: AbortSignal.timeout(120_000),
+  });
+  if (!response.ok) throw new Error(`Cloudflare's scanner answered ${response.status}.`);
+  const scan = (await response.json()) as {
+    level?: unknown;
+    levelName?: unknown;
+    checks?: Record<string, Record<string, { status?: unknown }>>;
+  };
+  if (typeof scan.level !== "number" || typeof scan.checks !== "object" || scan.checks === null)
+    throw new Error("Cloudflare's scanner sent an answer this version does not understand.");
+  const checks: Record<string, "pass" | "fail" | "neutral"> = {};
+  for (const group of Object.values(scan.checks)) {
+    for (const [name, check] of Object.entries(group ?? {})) {
+      const status = check?.status;
+      if (status === "pass" || status === "fail" || status === "neutral") checks[name] = status;
+    }
+  }
+  await writeFile(
+    out,
+    siteAuditHtml({
+      url: url.origin,
+      level: scan.level,
+      levelName: typeof scan.levelName === "string" ? scan.levelName : "",
+      checks,
+      category: category as SiteCategory,
+      scannedAt: io.now(),
+    }),
+  );
+  const passed = SITE_CHECKS.filter((check) => checks[check] === "pass").length;
+  io.out(`Level ${scan.level} of 5: ${passed} of ${SITE_CHECKS.length} checks pass.`);
   io.out(`Wrote ${out}.`);
   return 0;
 }
@@ -830,6 +899,8 @@ const OPTIONS = {
     out: { type: "string" },
     "api-origin": { type: "string" },
     "cloudflare-level": { type: "string" },
+    site: { type: "string" },
+    category: { type: "string" },
   },
   test: {
     dir: { type: "string" },

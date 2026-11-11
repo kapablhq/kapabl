@@ -506,7 +506,8 @@ describe("kapabl CLI", () => {
     const html = await readFile(join(s.cwd, "audit.html"), "utf8");
     expect(html).toContain("Your site passes <strong>1 of 11</strong> checks");
     expect(html).toContain("<strong>Level 1 of 5</strong> (Basic &lt;b&gt;Web&lt;/b&gt; Presence)");
-    expect(html).toContain('<li class="at" aria-current="true">1</li>');
+    expect(html).toContain('<li style="--i:1" class="at" aria-current="true">1</li>');
+    expect(html).toContain("<strong>To fix:</strong> Publish a sitemap");
     expect(html).toContain('<div class="n">1 of 3</div><div class="label">find your pages</div>');
     // 1,991 of the 2,497 personal sites Cloudflare scanned have a robots.txt.
     expect(html).toContain("80% of similar sites have this");

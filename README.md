@@ -14,7 +14,7 @@
 [![Node](https://img.shields.io/badge/Node-24%20LTS-5FA04E?labelColor=0A0A0A&logo=nodedotjs&logoColor=5FA04E)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?labelColor=0A0A0A&logo=typescript&logoColor=3178C6)](tsconfig.base.json)
 [![tests](https://img.shields.io/badge/tests-470%2B%20passing-12A150?labelColor=0A0A0A)](https://github.com/kapablhq/kapabl/actions/workflows/ci.yml)
-[![docs](https://img.shields.io/badge/docs-kapabl.dev-12A150?labelColor=0A0A0A)](https://kapabl.dev/docs)
+[![docs](https://img.shields.io/badge/docs-CLI-12A150?labelColor=0A0A0A)](docs/cli.md)
 
 ⭐ If Kapabl is useful to you, star the repository: it helps other people find it.
 
@@ -28,9 +28,9 @@
 
 ## 👋 Not a developer?
 
-You don't need anything on this page. Email your website address to [hello@kapabl.dev](mailto:hello@kapabl.dev?subject=Free%20audit) and we send you a free one-page report on how AI assistants like ChatGPT and Claude see your site.
+You don't need anything on this page. Type your website address at [kapabl.dev](https://kapabl.dev) and get a free one-page report on how AI assistants like ChatGPT and Claude see your site.
 
-[See a sample report](https://kapabl.dev/audit/sample-website) · [How the free audit works](https://kapabl.dev/audit)
+[See a sample report](https://kapabl.dev/audit/sample-website) · [How it works](https://kapabl.dev/audit)
 
 ## Table of Contents
 - [Not a developer?](#-not-a-developer)
@@ -133,7 +133,7 @@ flowchart LR
 
 ## 📚 Documentation
 
-- [kapabl.dev/docs](https://kapabl.dev/docs): the workflow, every command and how actions are labeled.
+- [docs/cli.md](docs/cli.md): the workflow, every command and how actions are labeled.
 - [AGENTS.md](AGENTS.md): the rules every change follows, for people and coding agents.
 - [`packages/graph/schema/`](packages/graph/schema): the capability graph and lockfile as JSON Schema, for editors and other tools.
 
